@@ -1,0 +1,46 @@
+{% extends 'crud/layout.html' %}
+{% load crispy_forms_tags %}
+
+{% block head %}
+<title>Task Master</title>
+{% endblock head %}
+
+
+{% block body %}
+<div class="content">
+    <h1 style="text-align: center">Task Master</h1>
+    
+
+    {% if tasks|length < 1 %}
+    <h4 style="text-align: center">There are no tasks. Create one below!</h4>
+    {% comment %} <h4 style="text-align: center">Maai Re...</h4> {% endcomment %}
+
+    {% else %}
+    <table>
+        <tr>
+            <th>Task</th>
+            <th>Added</th>
+            <th>Actions</th>
+        </tr>
+        {% for task in tasks %}
+            <tr>
+                <td>{{ task.task }}</td>
+                <td>{{ task.date }}</td>
+                <td>
+                    <a href="{% url 'crud-delete' pk=task.pk %}">Delete</a>
+                    <br>
+                    <a href="{% url 'crud-update' pk=task.pk %}">Update</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+
+    <div class="form">
+        <form action="" method="POST">{% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Add Task</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
